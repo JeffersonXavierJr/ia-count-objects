@@ -3,7 +3,7 @@
 ## Sistema Inteligente de Identificação e Contagem de Componentes
 
 ```mermaid
-flowchart LR
+flowchart TD
 
     %% =========================
     %% SISTEMAS DIGITAIS
@@ -105,17 +105,6 @@ flowchart LR
     HA --> DET
     HA --> ESP
     HA --> RES
-
-    %% =========================
-    %% ELEMENTOS NÃO UTILIZADOS
-    %% =========================
-    subgraph FUT["Elementos não utilizados no protótipo inicial"]
-        direction TB
-
-        MCU["Microcontrolador<br/>Não previsto"]
-        ATU["Atuadores<br/>Não previstos"]
-        CIR["Circuitos dedicados<br/>Não previstos além da alimentação<br/>da câmera e iluminação"]
-    end
 
     %% Estilos
     classDef sensor fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
