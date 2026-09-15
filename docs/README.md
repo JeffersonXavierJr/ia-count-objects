@@ -23,10 +23,8 @@ futuras ou hipotéticas.
 9. [Regras de negócio](09-regras-de-negocio.md) — regras e estados do sistema.
 10. [Requisitos](10-requisitos.md) — requisitos funcionais e não funcionais.
 11. [Diretrizes de desenvolvimento](11-diretrizes-de-desenvolvimento.md) — padrões, ordem de build, o que não presumir.
-12. [Materiais e impressão 3D](12-materiais-e-impressao-3d.md) — lista de materiais e peças impressas.
-13. [Equipe](13-equipe.md) — integrantes e responsabilidades.
-14. [Pontos em aberto e expansões futuras](14-pontos-em-aberto-e-expansoes.md) — o que ainda não foi decidido.
-15. [Diagrama de arquitetura](diagrama_arquitetura_contagem_componentes.md) — diagrama Mermaid detalhado.
+12. [Pontos em aberto e expansões futuras](12-pontos-em-aberto-e-expansoes.md) — o que ainda não foi decidido.
+13. [Diagrama de arquitetura](diagrama_arquitetura_contagem_componentes.md) — diagrama Mermaid detalhado.
 
 ## Referência
 
