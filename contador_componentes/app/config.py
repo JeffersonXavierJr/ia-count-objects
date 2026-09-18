@@ -18,4 +18,4 @@ from __future__ import annotations
 # Padrao: 0 e o indice da primeira webcam disponivel no sistema (a webcam
 # GoodVision, unico dispositivo previsto). Ajustar aqui (e somente aqui) se
 # o sistema atribuir um indice diferente.
-CAMERA_INDEX: int = 0
+CAMERA_INDEX: int = 1

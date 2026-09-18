@@ -65,10 +65,10 @@ Migrar o script solto da tarefa 1.1 para o módulo definitivo do projeto (RNF-05
 > das definitivas pode invalidar o treinamento.
 
 ### [ ] 2.1 Script de captura de frames para dataset
-- [ ] 2.1.1 Reaproveitar `app/camera.py` (sprint 1) para abrir o stream ao vivo
-- [ ] 2.1.2 Implementar salvamento de frame ao pressionar uma tecla (ex.: `s`)
-- [ ] 2.1.3 Nomear os arquivos salvos com timestamp/contador incremental, evitando sobrescrita
-- [ ] 2.1.4 Salvar os frames capturados em `dataset/images/raw/` (pasta de captura bruta, antes do split em train/val/test)
+- [x] 2.1.1 Reaproveitar `app/camera.py` (sprint 1) para abrir o stream ao vivo
+- [x] 2.1.2 Implementar salvamento de frame ao pressionar uma tecla (ex.: `s`)
+- [x] 2.1.3 Nomear os arquivos salvos com timestamp/contador incremental, evitando sobrescrita
+- [x] 2.1.4 Salvar os frames capturados em `dataset/images/raw/` (pasta de captura bruta, antes do split em train/val/test)
 
 ### [ ] 2.2 Protocolo de captura variada (PRD seção 14)
 Garantir diversidade de cenários no dataset antes de anotar.
