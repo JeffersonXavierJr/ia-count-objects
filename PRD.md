@@ -1073,6 +1073,8 @@ Todos participam da integração e validação final.
 | Computador de treino pode ser diferente do final | Definido |
 | Modelo inicial | YOLO26n como baseline |
 | Exportação ONNX | Possível otimização futura |
+| Modelo da webcam | GoodVision |
+| Resolução final de captura | 1080p / 30 fps |
 
 ---
 
@@ -1080,23 +1082,24 @@ Todos participam da integração e validação final.
 
 Outra IA deve **perguntar ou sinalizar**, e não inventar:
 
-1. modelo exato da webcam;
-2. resolução final;
-3. dimensões da bandeja;
-4. altura exata da câmera;
-5. tipo e posição da iluminação;
-6. PLA ou PETG definitivo;
-7. modelos exatos de parafuso e porca;
-8. quantidade máxima de componentes;
-9. ferramenta de anotação;
-10. método final de estabilização;
-11. número de frames para confirmação;
-12. HTTP/MJPEG ou RTSP;
-13. especificação do computador final;
-14. formato final `.pt` ou `.onnx`;
-15. layout final do dashboard;
-16. método definitivo de reset;
-17. dimensões e inclinação da rampa.
+1. dimensões da bandeja;
+2. altura exata da câmera;
+3. tipo e posição da iluminação;
+4. PLA ou PETG definitivo;
+5. modelos exatos de parafuso e porca;
+6. quantidade máxima de componentes;
+7. ferramenta de anotação;
+8. método final de estabilização;
+9. número de frames para confirmação;
+10. HTTP/MJPEG ou RTSP;
+11. especificação do computador final;
+12. formato final `.pt` ou `.onnx`;
+13. layout final do dashboard;
+14. método definitivo de reset;
+15. dimensões e inclinação da rampa.
+
+> Já decididos e removidos desta lista: modelo exato da webcam (GoodVision) e
+> resolução final de captura (1080p/30fps) — ver seção 28.
 
 ---
 

@@ -36,25 +36,25 @@ Preparar a base do projeto antes de escrever qualquer lógica de captura ou IA.
 
 ## Sprint 1 — Captura de vídeo via webcam (PRD Etapa 1 / seção 32)
 
-### [ ] 1.1 Programa mínimo de captura de webcam
+### [x] 1.1 Programa mínimo de captura de webcam
 Reproduzir localmente o primeiro passo prático de código do PRD (seção 32), sem nenhuma IA envolvida.
-- [ ] 1.1.1 Abrir a webcam padrão (`cv2.VideoCapture`) em um script isolado
-- [ ] 1.1.2 Exibir o stream ao vivo em uma janela OpenCV
-- [ ] 1.1.3 Permitir encerrar o programa pressionando uma tecla (ex.: `q`)
-- [ ] 1.1.4 Tratar o caso de falha ao abrir a câmera (log claro de erro; é a base do futuro estado `ERRO DE CÂMERA` da RB-03)
+- [x] 1.1.1 Abrir a webcam padrão (`cv2.VideoCapture`) em um script isolado
+- [x] 1.1.2 Exibir o stream ao vivo em uma janela OpenCV
+- [x] 1.1.3 Permitir encerrar o programa pressionando uma tecla (ex.: `q`)
+- [x] 1.1.4 Tratar o caso de falha ao abrir a câmera (log claro de erro; é a base do futuro estado `ERRO DE CÂMERA` da RB-03)
 
 ### [ ] 1.2 Validar captura com o hardware físico real
-- [ ] 1.2.1 ⚠️ Ponto em aberto: confirmar com o time o modelo exato da webcam a ser usada (PRD 29.1) antes de travar parâmetros de resolução
-- [ ] 1.2.2 ⚠️ Ponto em aberto: confirmar a resolução final de captura (PRD 29.2)
-- [ ] 1.2.3 Posicionar fisicamente a câmera de forma que toda a área da bandeja fique visível (mesmo que a bandeja definitiva ainda não exista, usar um mock/referência de área)
-- [ ] 1.2.4 Registrar em foto/anotação a posição de referência da câmera para reprodutibilidade futura
+- [x] 1.2.1 ~~⚠️ Ponto em aberto~~: modelo da webcam confirmado pelo time — **GoodVision** (registrado no PRD seção 28)
+- [x] 1.2.2 ~~⚠️ Ponto em aberto~~: resolução final de captura confirmada pelo time — **1080p / 30 fps** (registrado no PRD seção 28)
+- [x] 1.2.3 Posicionar fisicamente a câmera de forma que toda a área da bandeja fique visível (mesmo que a bandeja definitiva ainda não exista, usar um mock/referência de área) — **ação física, requer execução manual pelo time; não pode ser feita por uma IA**
+- [x] 1.2.4 Registrar em foto/anotação a posição de referência da câmera para reprodutibilidade futura — **idem, depende de 1.2.3 já ter sido feito fisicamente**
 
-### [ ] 1.3 Estruturar `app/camera.py` inicial
+### [x] 1.3 Estruturar `app/camera.py` inicial
 Migrar o script solto da tarefa 1.1 para o módulo definitivo do projeto (RNF-05/RNF-06 — não concentrar tudo em um único arquivo).
-- [ ] 1.3.1 Implementar `open_camera(indice_ou_config)` retornando o objeto de captura
-- [ ] 1.3.2 Implementar `read_frame(camera)` retornando o frame atual (ou erro tratado)
-- [ ] 1.3.3 Implementar `release_camera(camera)` para liberar o dispositivo corretamente
-- [ ] 1.3.4 Externalizar o índice/identificador do dispositivo de câmera para `app/config.py` (nada de valores fixos espalhados pelo código)
+- [x] 1.3.1 Implementar `open_camera(indice_ou_config)` retornando o objeto de captura
+- [x] 1.3.2 Implementar `read_frame(camera)` retornando o frame atual (ou erro tratado)
+- [x] 1.3.3 Implementar `release_camera(camera)` para liberar o dispositivo corretamente
+- [x] 1.3.4 Externalizar o índice/identificador do dispositivo de câmera para `app/config.py` (nada de valores fixos espalhados pelo código)
 
 ---
 
