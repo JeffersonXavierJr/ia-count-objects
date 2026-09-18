@@ -1,0 +1,32 @@
+# Ambiente virtual Python
+venv/
+.venv/
+
+# Cache/bytecode Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Dataset: imagens e rótulos NAO sao versionados no Git (arquivos binarios/volumosos,
+# alem de crescerem a cada sessao de captura). Decisao registrada em TASKS.md 0.2.1:
+# manter o dataset fora do Git; se for necessario compartilhar com o time, usar
+# armazenamento externo (ex.: Drive, Roboflow) ou Git LFS, a avaliar futuramente.
+contador_componentes/dataset/images/
+contador_componentes/dataset/labels/
+
+# Pesos de modelo treinado: tambem fora do Git pelo mesmo motivo (arquivos binarios
+# grandes, gerados a partir do treinamento, nao sao codigo-fonte).
+*.pt
+*.onnx
+contador_componentes/models/*
+!contador_componentes/models/.gitkeep
+
+# Logs e artefatos de treinamento do Ultralytics
+runs/
+*.log
+
+# Arquivos de IDE/SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

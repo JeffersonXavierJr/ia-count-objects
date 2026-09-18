@@ -20,21 +20,17 @@ Convenções:
 
 ## Sprint 0 — Preparação do ambiente e planejamento
 
-### [ ] 0.1 Configurar ambiente de desenvolvimento Python
+### [x] 0.1 Configurar ambiente de desenvolvimento Python
 Preparar a base do projeto antes de escrever qualquer lógica de captura ou IA.
-- [ ] 0.1.1 Definir e instalar a versão do Python a ser usada por todo o time (registrar a versão escolhida no README)
-- [ ] 0.1.2 Criar ambiente virtual (`venv`) do projeto
-- [ ] 0.1.3 Criar `requirements.txt` inicial com as dependências já certas pelo PRD (`opencv-python`, `ultralytics`, cliente MQTT em Python, ex. `paho-mqtt`)
-- [ ] 0.1.4 Criar a estrutura de pastas `contador_componentes/` exatamente como descrito na seção 20 do PRD (`app/`, `training/`, `models/`, `dataset/`, `tests/`)
-- [ ] 0.1.5 Criar arquivos `__init__.py` vazios em `app/` para tratá-lo como pacote Python
+- [x] 0.1.1 Definir e instalar a versão do Python a ser usada por todo o time (registrar a versão escolhida no README)
+- [x] 0.1.2 Criar ambiente virtual (`venv`) do projeto
+- [x] 0.1.3 Criar `requirements.txt` inicial com as dependências já certas pelo PRD (`opencv-python`, `ultralytics`, cliente MQTT em Python, ex. `paho-mqtt`)
+- [x] 0.1.4 Criar a estrutura de pastas `contador_componentes/` exatamente como descrito na seção 20 do PRD (`app/`, `training/`, `models/`, `dataset/`, `tests/`)
+- [x] 0.1.5 Criar arquivos `__init__.py` vazios em `app/` para tratá-lo como pacote Python
 
-### [ ] 0.2 Configurar controle de versão e convenções do repositório
-- [ ] 0.2.1 Revisar/criar `.gitignore` cobrindo ambiente virtual, `__pycache__`, imagens de dataset e pesos de modelo (`*.pt`, `*.onnx`) — decidir se pesos/dataset ficam versionados ou fora do Git
-- [ ] 0.2.2 Definir e documentar convenção de mensagens de commit do time, se ainda não houver uma
-
-### [ ] 0.3 Levantar bloqueios de decisão antes de iniciar cada etapa
-- [ ] 0.3.1 Revisar a lista de "Pontos ainda em aberto" (PRD seção 29) e marcar quais bloqueiam o início de qual sprint deste documento
-- [ ] 0.3.2 Agendar/registrar quem é responsável por decidir cada ponto em aberto, conforme divisão de equipe da seção 27 do PRD
+### [x] 0.2 Configurar controle de versão e convenções do repositório
+- [x] 0.2.1 Revisar/criar `.gitignore` cobrindo ambiente virtual, `__pycache__`, imagens de dataset e pesos de modelo (`*.pt`, `*.onnx`) — decidir se pesos/dataset ficam versionados ou fora do Git
+- [x] 0.2.2 Definir e documentar convenção de mensagens de commit do time, se ainda não houver uma
 
 ---
 
@@ -63,6 +59,10 @@ Migrar o script solto da tarefa 1.1 para o módulo definitivo do projeto (RNF-05
 ---
 
 ## Sprint 2 — Ferramenta de captura do dataset (PRD Etapa 2)
+
+> ⚠️ Ponto em aberto que bloqueia a captura em massa: confirmar com o time os modelos exatos de
+> parafuso e porca a usar (PRD 29.7) antes de capturar o dataset — capturar com peças diferentes
+> das definitivas pode invalidar o treinamento.
 
 ### [ ] 2.1 Script de captura de frames para dataset
 - [ ] 2.1.1 Reaproveitar `app/camera.py` (sprint 1) para abrir o stream ao vivo
@@ -252,7 +252,7 @@ Lembrete: a máquina de treino pode ser diferente da máquina de inferência (PR
 
 ### [ ] 10.2 Criar controles de configuração no Home Assistant
 - [ ] 10.2.1 Criar seletor de componente (Parafuso/Porca) publicando em `contador/config/componente`
-- [ ] 10.2.2 Criar campo numérico de quantidade desejada publicando em `contador/config/quantidade`
+- [ ] 10.2.2 Criar campo numérico de quantidade desejada publicando em `contador/config/quantidade` (⚠️ Ponto em aberto: o limite máximo do campo depende da quantidade máxima de componentes suportada, PRD 29.8)
 - [ ] 10.2.3 Criar botão de reset (RB-05) publicando o comando de reset definido na Sprint 9.2.3
 - [ ] 10.2.4 ⚠️ Ponto em aberto: confirmar com o time o método definitivo de reset (PRD 29.16) antes de finalizar este item
 
@@ -291,6 +291,9 @@ Lembrete: a máquina de treino pode ser diferente da máquina de inferência (PR
 ## Sprint 12 — Estrutura física / mecânica (pode rodar em paralelo às Sprints 1–11)
 
 > Responsabilidade primária: dupla mecânica do time (PRD seção 27). Referências: PRD seções 6, 25 e 26.
+>
+> ⚠️ Ponto em aberto que bloqueia o dimensionamento da bandeja (tarefa 12.1): confirmar a
+> quantidade máxima de componentes que o sistema precisa suportar por sessão (PRD 29.8).
 
 ### [ ] 12.1 Projetar a bandeja fixa
 - [ ] 12.1.1 Modelar em CAD garantindo área interna totalmente visível pela câmera
