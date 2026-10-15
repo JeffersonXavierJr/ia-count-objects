@@ -1,14 +1,26 @@
-path: ../dataset
-train: train
-val: val
-test: test
+# Configuracao do dataset para treinamento YOLO (Object Detection).
+#
+# Classes da v1 conforme PRD secao 13.2: apenas parafuso e porca. Outros
+# componentes (ex.: arruelas) sao expansao futura — nao adicionar aqui antes
+# da hora.
+#
+# Origem: export Roboflow (ordem alfabetica: Parafuso=0, Porca=1), conferido
+# por amostragem visual nos labels — ID 0 corresponde de fato a parafuso.
+#
+# IMPORTANTE — diretorio de execucao:
+# O ultralytics resolve `path` relativo contra o DIRETORIO ATUAL (cwd), e
+# nao contra a pasta deste arquivo. Se o caminho nao existir a partir do cwd,
+# ele tenta DATASETS_DIR (settings do ultralytics) e falha. Por isso o treino
+# deve ser executado a partir da RAIZ DO REPOSITORIO (ia-count-objects/).
+# Caminho relativo de proposito: a maquina de treino pode ser diferente da
+# maquina de inferencia (PRD 13.4), entao nada de caminho absoluto aqui.
 
-nc: 2
-names: ['Parafuso', 'Porca']
+path: contador_componentes/dataset # raiz do dataset (relativa a raiz do repo)
+train: images/train # relativo a `path`
+val: images/val # relativo a `path`
+test: images/test # relativo a `path`
+# images/raw (capturas brutas) nao faz parte do treino
 
-roboflow:
-  workspace: murilo-de-souza-mattos
-  project: contador_de_parafuso
-  version: 1
-  license: Private
-  url: https://app.roboflow.com/murilo-de-souza-mattos/contador_de_parafuso/1
+names:
+  0: parafuso
+  1: porca

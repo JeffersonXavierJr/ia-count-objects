@@ -58,7 +58,7 @@ Migrar o script solto da tarefa 1.1 para o módulo definitivo do projeto (RNF-05
 
 ---
 
-## Sprint 2 — Ferramenta de captura do dataset (PRD Etapa 2)
+## [x] Sprint 2 — Ferramenta de captura do dataset (PRD Etapa 2)
 
 > ⚠️ Ponto em aberto que bloqueia a captura em massa: confirmar com o time os modelos exatos de
 > parafuso e porca a usar (PRD 29.7) antes de capturar o dataset — capturar com peças diferentes
@@ -86,7 +86,7 @@ Garantir diversidade de cenários no dataset antes de anotar.
 
 ---
 
-## Sprint 3 — Organização e anotação do dataset (PRD Etapa 3 / seção 14)
+## [x] Sprint 3 — Organização e anotação do dataset (PRD Etapa 3 / seção 14)
 
 ### [x] 3.1 Escolher ferramenta de anotação
 - [x] 3.1.1 ⚠️ Ponto em aberto: decidir com o time a ferramenta de anotação a ser usada (PRD 29.9 — ex.: LabelImg, CVAT, Roboflow ou similar) antes de iniciar a anotação em massa
@@ -103,11 +103,11 @@ Garantir diversidade de cenários no dataset antes de anotar.
 - [x] 3.3.3 Organizar rótulos correspondentes em `dataset/labels/train/`, `dataset/labels/val/`, `dataset/labels/test/`
 - [x] 3.3.4 Conferir que cada imagem tem exatamente um arquivo de rótulo correspondente (mesmo nome, extensão `.txt`)
 
-### [ ] 3.4 Criar `training/dataset.yaml`
-- [ ] 3.4.1 Definir o campo `path` apontando para a raiz do dataset
-- [ ] 3.4.2 Mapear `train`, `val`, `test` para as respectivas subpastas
-- [ ] 3.4.3 Mapear as classes `0: parafuso` e `1: porca` (exatamente como na seção 13.2 do PRD, sem adicionar classes extras)
-- [ ] 3.4.4 Validar que o `dataset.yaml` carrega sem erros com a biblioteca YOLO escolhida
+### [x] 3.4 Criar `training/dataset.yaml`
+- [x] 3.4.1 Definir o campo `path` apontando para a raiz do dataset
+- [x] 3.4.2 Mapear `train`, `val`, `test` para as respectivas subpastas
+- [x] 3.4.3 Mapear as classes `0: parafuso` e `1: porca` (exatamente como na seção 13.2 do PRD, sem adicionar classes extras)
+- [x] 3.4.4 Validar que o `dataset.yaml` carrega sem erros com a biblioteca YOLO escolhida
 
 ---
 
