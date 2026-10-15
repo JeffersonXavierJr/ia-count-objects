@@ -64,44 +64,44 @@ Migrar o script solto da tarefa 1.1 para o módulo definitivo do projeto (RNF-05
 > parafuso e porca a usar (PRD 29.7) antes de capturar o dataset — capturar com peças diferentes
 > das definitivas pode invalidar o treinamento.
 
-### [ ] 2.1 Script de captura de frames para dataset
+### [x] 2.1 Script de captura de frames para dataset
 - [x] 2.1.1 Reaproveitar `app/camera.py` (sprint 1) para abrir o stream ao vivo
 - [x] 2.1.2 Implementar salvamento de frame ao pressionar uma tecla (ex.: `s`)
 - [x] 2.1.3 Nomear os arquivos salvos com timestamp/contador incremental, evitando sobrescrita
 - [x] 2.1.4 Salvar os frames capturados em `dataset/images/raw/` (pasta de captura bruta, antes do split em train/val/test)
 
-### [ ] 2.2 Protocolo de captura variada (PRD seção 14)
+### [x] 2.2 Protocolo de captura variada (PRD seção 14)
 Garantir diversidade de cenários no dataset antes de anotar.
-- [ ] 2.2.1 Capturar cenas com diferentes quantidades de parafusos (poucos, muitos, próximo do limite da bandeja)
-- [ ] 2.2.2 Capturar cenas com diferentes quantidades de porcas
-- [ ] 2.2.3 Capturar cenas misturando parafusos e porcas na mesma imagem
-- [ ] 2.2.4 Capturar objetos em posições e rotações variadas
-- [ ] 2.2.5 Capturar objetos próximos entre si e parcialmente encostados
-- [ ] 2.2.6 Capturar objetos próximos às bordas da bandeja
-- [ ] 2.2.7 Capturar a bandeja vazia (imagem de referência sem objetos)
+- [x] 2.2.1 Capturar cenas com diferentes quantidades de parafusos (poucos, muitos, próximo do limite da bandeja)
+- [x] 2.2.2 Capturar cenas com diferentes quantidades de porcas
+- [x] 2.2.3 Capturar cenas misturando parafusos e porcas na mesma imagem
+- [x] 2.2.4 Capturar objetos em posições e rotações variadas
+- [x] 2.2.5 Capturar objetos próximos entre si e parcialmente encostados
+- [x] 2.2.6 Capturar objetos próximos às bordas da bandeja
+- [x] 2.2.7 Capturar a bandeja vazia (imagem de referência sem objetos)
 
-### [ ] 2.3 Meta quantitativa inicial do dataset
-- [ ] 2.3.1 Acompanhar a contagem de imagens capturadas até atingir a faixa de referência de 200 a 500 imagens (PRD seção 14 — apenas referência inicial, não é limite rígido)
-- [ ] 2.3.2 Revisar visualmente a diversidade/qualidade das capturas antes de prosseguir para a anotação (priorizar diversidade sobre quantidade)
+### [x] 2.3 Meta quantitativa inicial do dataset
+- [x] 2.3.1 Acompanhar a contagem de imagens capturadas até atingir a faixa de referência de 200 a 500 imagens (PRD seção 14 — apenas referência inicial, não é limite rígido)
+- [x] 2.3.2 Revisar visualmente a diversidade/qualidade das capturas antes de prosseguir para a anotação (priorizar diversidade sobre quantidade)
 
 ---
 
 ## Sprint 3 — Organização e anotação do dataset (PRD Etapa 3 / seção 14)
 
-### [ ] 3.1 Escolher ferramenta de anotação
-- [ ] 3.1.1 ⚠️ Ponto em aberto: decidir com o time a ferramenta de anotação a ser usada (PRD 29.9 — ex.: LabelImg, CVAT, Roboflow ou similar) antes de iniciar a anotação em massa
-- [ ] 3.1.2 Validar que a ferramenta escolhida exporta rótulos no formato YOLO (`classe x_center y_center width height` normalizado)
+### [x] 3.1 Escolher ferramenta de anotação
+- [x] 3.1.1 ⚠️ Ponto em aberto: decidir com o time a ferramenta de anotação a ser usada (PRD 29.9 — ex.: LabelImg, CVAT, Roboflow ou similar) antes de iniciar a anotação em massa
+- [x] 3.1.2 Validar que a ferramenta escolhida exporta rótulos no formato YOLO (`classe x_center y_center width height` normalizado)
 
-### [ ] 3.2 Anotar as imagens capturadas
-- [ ] 3.2.1 Anotar bounding box de cada parafuso presente nas imagens (classe `0 = parafuso`)
-- [ ] 3.2.2 Anotar bounding box de cada porca presente nas imagens (classe `1 = porca`)
-- [ ] 3.2.3 Revisar por amostragem um subconjunto das anotações para checar consistência de critério entre anotadores (relevante pois há mais de uma pessoa na equipe de visão computacional)
+### [x] 3.2 Anotar as imagens capturadas
+- [x] 3.2.1 Anotar bounding box de cada parafuso presente nas imagens (classe `0 = parafuso`)
+- [x] 3.2.2 Anotar bounding box de cada porca presente nas imagens (classe `1 = porca`)
+- [x] 3.2.3 Revisar por amostragem um subconjunto das anotações para checar consistência de critério entre anotadores (relevante pois há mais de uma pessoa na equipe de visão computacional)
 
-### [ ] 3.3 Dividir o dataset em train/val/test
-- [ ] 3.3.1 Definir a proporção do split (ex.: 70/20/10 — a validar com o time; registrar a decisão)
-- [ ] 3.3.2 Organizar imagens em `dataset/images/train/`, `dataset/images/val/`, `dataset/images/test/`
-- [ ] 3.3.3 Organizar rótulos correspondentes em `dataset/labels/train/`, `dataset/labels/val/`, `dataset/labels/test/`
-- [ ] 3.3.4 Conferir que cada imagem tem exatamente um arquivo de rótulo correspondente (mesmo nome, extensão `.txt`)
+### [x] 3.3 Dividir o dataset em train/val/test
+- [x] 3.3.1 Definir a proporção do split (ex.: 70/20/10 — a validar com o time; registrar a decisão)
+- [x] 3.3.2 Organizar imagens em `dataset/images/train/`, `dataset/images/val/`, `dataset/images/test/`
+- [x] 3.3.3 Organizar rótulos correspondentes em `dataset/labels/train/`, `dataset/labels/val/`, `dataset/labels/test/`
+- [x] 3.3.4 Conferir que cada imagem tem exatamente um arquivo de rótulo correspondente (mesmo nome, extensão `.txt`)
 
 ### [ ] 3.4 Criar `training/dataset.yaml`
 - [ ] 3.4.1 Definir o campo `path` apontando para a raiz do dataset

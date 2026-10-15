@@ -1,0 +1,14 @@
+path: ../dataset
+train: train
+val: val
+test: test
+
+nc: 2
+names: ['Parafuso', 'Porca']
+
+roboflow:
+  workspace: murilo-de-souza-mattos
+  project: contador_de_parafuso
+  version: 1
+  license: Private
+  url: https://app.roboflow.com/murilo-de-souza-mattos/contador_de_parafuso/1
