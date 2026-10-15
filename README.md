@@ -12,6 +12,10 @@ tarefas por sprint está em [`TASKS.md`](./TASKS.md).
 - **Python**: 3.12.x (testado com 3.12.9). Todo o time deve padronizar nessa versão.
 - Ambiente virtual do projeto: `venv/` (criado na raiz do repositório via `python -m venv venv`).
 - Dependências: ver [`requirements.txt`](./requirements.txt).
+- Máquina de treino (pode ser diferente do PC de inferência — PRD 13.4): precisa do `ultralytics`
+  (já em `requirements.txt`, traz o `torch`). Se houver GPU NVIDIA, instale o `torch` com CUDA
+  (ver pytorch.org) para acelerar o treino; sem GPU o treino roda em CPU. Executar o treino a partir
+  da raiz do repositório: `python contador_componentes/training/train.py --help`.
 
 ## Estrutura do projeto
 

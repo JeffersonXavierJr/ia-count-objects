@@ -113,10 +113,10 @@ Garantir diversidade de cenários no dataset antes de anotar.
 
 ## Sprint 4 — Primeiro treinamento YOLO (PRD Etapa 4 / seção 13.3–13.4)
 
-### [ ] 4.1 Preparar ambiente de treinamento
+### [x] 4.1 Preparar ambiente de treinamento
 Lembrete: a máquina de treino pode ser diferente da máquina de inferência (PRD 13.4) — não acoplar o código de treino a suposições sobre o hardware final.
-- [ ] 4.1.1 Instalar as dependências de treinamento (ex.: `ultralytics`) na máquina escolhida para treinar
-- [ ] 4.1.2 Criar `training/train.py` com os parâmetros de treinamento (modelo base, dataset.yaml, imgsz, épocas)
+- [x] 4.1.1 Instalar as dependências de treinamento (ex.: `ultralytics`) na máquina escolhida para treinar
+- [x] 4.1.2 Criar `training/train.py` com os parâmetros de treinamento (modelo base, dataset.yaml, imgsz, épocas)
 
 ### [ ] 4.2 Treinar o modelo baseline YOLO26n
 - [ ] 4.2.1 Configurar `imgsz = 640` conforme baseline definido no PRD (seção 21, Etapa 4)
