@@ -1,12 +1,14 @@
-"""Captura de vídeo via webcam (Sprint 1, tarefa 1.3 do TASKS.md).
+"""Captura de vídeo via webcam (Sprint 1, tarefa 1.3) e recorte de ROI
+(Sprint 6, tarefa 6.1 do TASKS.md).
 
-Responsabilidade única deste módulo (RNF-05/RNF-06): abrir, ler e liberar o
-dispositivo de câmera. Nenhuma lógica de ROI, inferência YOLO, contagem,
-MQTT ou streaming pertence aqui — essas responsabilidades pertencem a outros
-módulos de `contador_componentes/app/` em sprints futuras.
+Responsabilidade única deste módulo (RNF-05/RNF-06): entregar frames da
+câmera — abrir, ler e liberar o dispositivo, e recortar o frame na região de
+interesse (ROI, área útil da bandeja). Nenhuma lógica de inferência YOLO,
+contagem, MQTT ou streaming pertence aqui — essas responsabilidades pertencem
+a outros módulos de `contador_componentes/app/`.
 
-O índice do dispositivo de câmera é centralizado em `app/config.py`
-(`CAMERA_INDEX`), nunca hardcoded neste módulo.
+O índice do dispositivo (`CAMERA_INDEX`) e as coordenadas da ROI (`ROI`) são
+centralizados em `app/config.py`, nunca hardcoded neste módulo.
 """
 
 from __future__ import annotations
@@ -14,6 +16,7 @@ from __future__ import annotations
 import logging
 
 import cv2
+import numpy as np
 
 from contador_componentes.app import config
 
@@ -93,3 +96,65 @@ def release_camera(camera: cv2.VideoCapture) -> None:
 
     camera.release()
     logger.info("Camera liberada.")
+
+
+def apply_roi(
+    frame: np.ndarray, roi: tuple[int, int, int, int] | None = None
+) -> np.ndarray:
+    """Recorta o frame, retornando apenas a região da bandeja (ROI).
+
+    O recorte é feito por fatiamento do array numpy, portanto o retorno é uma
+    *view* do frame original (sem cópia). Quem precisar modificar o recorte
+    sem afetar o frame original deve chamar `.copy()`.
+
+    Args:
+        frame: frame lido da câmera (array `altura x largura[ x canais]`).
+        roi: retângulo `(x, y, largura, altura)` em pixels do frame. Quando
+            omitido, usa `config.ROI`. Se `config.ROI` também for `None`, a
+            ROI está desativada e o frame é retornado sem alteração.
+
+    Returns:
+        A região recortada do frame (ou o próprio frame, se não houver ROI).
+
+    Raises:
+        ValueError: se a ROI tiver largura/altura não positivas, ou se ficar
+            vazia após ser limitada às bordas do frame (ex.: ROI inteiramente
+            fora da imagem — sinal de ROI calibrada para outra resolução).
+    """
+    if roi is None:
+        roi = config.ROI
+
+    if roi is None:
+        return frame
+
+    x, y, largura, altura = (int(valor) for valor in roi)
+
+    if largura <= 0 or altura <= 0:
+        raise ValueError(
+            f"ROI invalida {tuple(roi)!r}: largura e altura devem ser positivas "
+            "(formato esperado: (x, y, largura, altura))."
+        )
+
+    altura_frame, largura_frame = frame.shape[:2]
+
+    # Limita o retângulo às bordas do frame.
+    x0 = min(max(x, 0), largura_frame)
+    y0 = min(max(y, 0), altura_frame)
+    x1 = min(max(x + largura, 0), largura_frame)
+    y1 = min(max(y + altura, 0), altura_frame)
+
+    if x1 <= x0 or y1 <= y0:
+        raise ValueError(
+            f"ROI {tuple(roi)!r} fica vazia dentro do frame de "
+            f"{largura_frame}x{altura_frame} pixels. Verifique se a ROI foi "
+            "calibrada para a mesma resolucao de captura atual."
+        )
+
+    if (x0, y0, x1, y1) != (x, y, x + largura, y + altura):
+        logger.debug(
+            "ROI %r ultrapassa o frame de %dx%d; recorte limitado a "
+            "(%d, %d, %d, %d).",
+            tuple(roi), largura_frame, altura_frame, x0, y0, x1 - x0, y1 - y0,
+        )
+
+    return frame[y0:y1, x0:x1]

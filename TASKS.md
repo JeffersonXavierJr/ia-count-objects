@@ -111,43 +111,43 @@ Garantir diversidade de cenários no dataset antes de anotar.
 
 ---
 
-## Sprint 4 — Primeiro treinamento YOLO (PRD Etapa 4 / seção 13.3–13.4)
+## [x] Sprint 4 — Primeiro treinamento YOLO (PRD Etapa 4 / seção 13.3–13.4)
 
 ### [x] 4.1 Preparar ambiente de treinamento
 Lembrete: a máquina de treino pode ser diferente da máquina de inferência (PRD 13.4) — não acoplar o código de treino a suposições sobre o hardware final.
 - [x] 4.1.1 Instalar as dependências de treinamento (ex.: `ultralytics`) na máquina escolhida para treinar
 - [x] 4.1.2 Criar `training/train.py` com os parâmetros de treinamento (modelo base, dataset.yaml, imgsz, épocas)
 
-### [ ] 4.2 Treinar o modelo baseline YOLO26n
-- [ ] 4.2.1 Configurar `imgsz = 640` conforme baseline definido no PRD (seção 21, Etapa 4)
-- [ ] 4.2.2 Definir número inicial de épocas (valor a ajustar experimentalmente; registrar o valor usado)
-- [ ] 4.2.3 Executar o treinamento e acompanhar as curvas de loss e métricas (mAP) durante o processo
-- [ ] 4.2.4 Não escalar para YOLO26s nesta etapa — isso só é permitido após analisar dataset/erros (regra explícita do PRD seção 13.3)
+### [x] 4.2 Treinar o modelo baseline YOLO26n
+- [x] 4.2.1 Configurar `imgsz = 640` conforme baseline definido no PRD (seção 21, Etapa 4)
+- [x] 4.2.2 Definir número inicial de épocas (valor a ajustar experimentalmente; registrar o valor usado)
+- [x] 4.2.3 Executar o treinamento e acompanhar as curvas de loss e métricas (mAP) durante o processo
+- [x] 4.2.4 Não escalar para YOLO26s nesta etapa — isso só é permitido após analisar dataset/erros (regra explícita do PRD seção 13.3)
 
-### [ ] 4.3 Coletar e registrar o artefato treinado
-- [ ] 4.3.1 Copiar o `best.pt` gerado para `models/`
-- [ ] 4.3.2 Registrar as métricas de treino obtidas (precisão/recall preliminares) em um log ou anotação para comparação em treinamentos futuros
+### [x] 4.3 Coletar e registrar o artefato treinado
+- [x] 4.3.1 Copiar o `best.pt` gerado para `models/`
+- [x] 4.3.2 Registrar as métricas de treino obtidas (precisão/recall preliminares) em um log ou anotação para comparação em treinamentos futuros
 
 ---
 
-## Sprint 5 — Validação do modelo treinado (PRD Etapa 5 / seção 24)
+## [x] Sprint 5 — Validação do modelo treinado (PRD Etapa 5 / seção 24)
 
-### [ ] 5.1 Testar em imagens nunca vistas pelo modelo
-- [ ] 5.1.1 Garantir que o conjunto de teste (`dataset/images/test/`) não foi usado em nenhum momento do treino
-- [ ] 5.1.2 Rodar inferência do `best.pt` sobre o conjunto de teste
-- [ ] 5.1.3 Inspecionar visualmente as detecções (bounding boxes sobrepostas às imagens) em busca de erros óbvios
+### [x] 5.1 Testar em imagens nunca vistas pelo modelo
+- [x] 5.1.1 Garantir que o conjunto de teste (`dataset/images/test/`) não foi usado em nenhum momento do treino
+- [x] 5.1.2 Rodar inferência do `best.pt` sobre o conjunto de teste
+- [x] 5.1.3 Inspecionar visualmente as detecções (bounding boxes sobrepostas às imagens) em busca de erros óbvios
 
-### [ ] 5.2 Avaliar métricas de IA (PRD seção 24)
-- [ ] 5.2.1 Calcular precisão do modelo
-- [ ] 5.2.2 Calcular recall do modelo
-- [ ] 5.2.3 Levantar falsos positivos (objetos detectados que não existem ou classe errada)
-- [ ] 5.2.4 Levantar falsos negativos (objetos reais não detectados)
-- [ ] 5.2.5 Calcular erro de contagem (quantidade detectada vs. quantidade real conhecida em cada imagem de teste)
+### [x] 5.2 Avaliar métricas de IA (PRD seção 24)
+- [x] 5.2.1 Calcular precisão do modelo
+- [x] 5.2.2 Calcular recall do modelo
+- [x] 5.2.3 Levantar falsos positivos (objetos detectados que não existem ou classe errada)
+- [x] 5.2.4 Levantar falsos negativos (objetos reais não detectados)
+- [x] 5.2.5 Calcular erro de contagem (quantidade detectada vs. quantidade real conhecida em cada imagem de teste)
 
-### [ ] 5.3 Decidir próximos passos com base nos erros
-- [ ] 5.3.1 Categorizar os erros encontrados por causa provável (oclusão, proximidade da borda, iluminação, objetos encostados)
-- [ ] 5.3.2 Decidir se é necessário capturar/anotar mais dados de dataset para as categorias com mais erro (retornar à Sprint 2/3 se necessário)
-- [ ] 5.3.3 Só considerar migrar para YOLO26s depois de esgotar melhorias de dataset, conforme regra do PRD (seção 13.3)
+### [x] 5.3 Decidir próximos passos com base nos erros
+- [x] 5.3.1 Categorizar os erros encontrados por causa provável (oclusão, proximidade da borda, iluminação, objetos encostados)
+- [x] 5.3.2 Decidir se é necessário capturar/anotar mais dados de dataset para as categorias com mais erro (retornar à Sprint 2/3 se necessário)
+- [x] 5.3.3 Só considerar migrar para YOLO26s depois de esgotar melhorias de dataset, conforme regra do PRD (seção 13.3)
 
 ---
 
@@ -155,18 +155,18 @@ Lembrete: a máquina de treino pode ser diferente da máquina de inferência (PR
 
 ### [ ] 6.1 Implementar recorte de ROI em `app/camera.py`
 - [ ] 6.1.1 Definir as coordenadas fixas da área útil da bandeja (depende da posição física definitiva da câmera — sincronizar com Sprint 12/13 se a estrutura final já estiver montada; caso contrário, usar a posição de referência da Sprint 1)
-- [ ] 6.1.2 Implementar `apply_roi(frame)` retornando apenas a região da bandeja
-- [ ] 6.1.3 Criar uma ferramenta simples de calibração visual do ROI (ex.: overlay do retângulo de corte sobre o frame ao vivo, ajustável antes de travar os valores)
-- [ ] 6.1.4 Externalizar as coordenadas do ROI para `app/config.py`
+- [x] 6.1.2 Implementar `apply_roi(frame)` retornando apenas a região da bandeja
+- [x] 6.1.3 Criar uma ferramenta simples de calibração visual do ROI (ex.: overlay do retângulo de corte sobre o frame ao vivo, ajustável antes de travar os valores)
+- [x] 6.1.4 Externalizar as coordenadas do ROI para `app/config.py`
 
-### [ ] 6.2 Criar `app/detector.py`
-- [ ] 6.2.1 Implementar `load_model(caminho_modelo)` carregando o `best.pt` treinado (ou `.onnx`, quando essa decisão for tomada — ver Sprint 14)
-- [ ] 6.2.2 Implementar `run_inference(frame)` retornando lista de detecções (classe, confiança, bounding box)
-- [ ] 6.2.3 Externalizar o caminho do modelo para `app/config.py`
+### [x] 6.2 Criar `app/detector.py`
+- [x] 6.2.1 Implementar `load_model(caminho_modelo)` carregando o `best.pt` treinado (ou `.onnx`, quando essa decisão for tomada — ver Sprint 14)
+- [x] 6.2.2 Implementar `run_inference(frame)` retornando lista de detecções (classe, confiança, bounding box)
+- [x] 6.2.3 Externalizar o caminho do modelo para `app/config.py`
 
-### [ ] 6.3 Montar o pipeline ao vivo webcam → ROI → YOLO → bounding boxes
-- [ ] 6.3.1 Implementar o loop principal: captura de frame → aplicação de ROI → inferência → desenho das bounding boxes com classe/confiança
-- [ ] 6.3.2 Exibir o resultado em uma janela local para validação manual (etapa ainda sem MQTT/Home Assistant)
+### [x] 6.3 Montar o pipeline ao vivo webcam → ROI → YOLO → bounding boxes
+- [x] 6.3.1 Implementar o loop principal: captura de frame → aplicação de ROI → inferência → desenho das bounding boxes com classe/confiança
+- [x] 6.3.2 Exibir o resultado em uma janela local para validação manual (etapa ainda sem MQTT/Home Assistant)
 
 ### [ ] 6.4 Validar desempenho básico do pipeline
 - [ ] 6.4.1 Medir o FPS obtido nesta etapa do pipeline
