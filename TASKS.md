@@ -2,7 +2,7 @@
 
 Lista de tarefas do projeto, organizada em **sprints**, seguindo a ordem de desenvolvimento
 recomendada no `PRD.md` (seções 21 e 31): Câmera → Dataset → YOLO → Contagem → Estabilização →
-MQTT → Home Assistant → Streaming → Integração física completa.
+Interface local → Integração no computador final.
 
 Convenções:
 
@@ -10,9 +10,8 @@ Convenções:
   tarefa-pai quando **todas** as suas subtarefas estiverem concluídas.
 - Itens marcados com **⚠️ Ponto em aberto** referenciam a seção 29 do `PRD.md` — não devem ser
   decididos unilateralmente por uma IA; exigem decisão do time antes de prosseguir.
-- A Sprint 12 e a Sprint 13 (estrutura física e iluminação) podem ser executadas **em paralelo**
-  às Sprints 1–11 (o time mecânico não depende do time de software para avançar), mas a Sprint 14
-  (integração física completa) depende de ambas as frentes estarem prontas.
+- A Sprint 10 (iluminação) pode ser executada **em paralelo** às Sprints 1–9, mas a Sprint 11
+  (integração no computador final) depende dela estar pronta.
 - Nenhuma tarefa de banco de dados, histórico, esteira, ESP32/microcontroladores ou automação do
   fundo deslizante deve ser criada — está fora do escopo da v1 (`CLAUDE.md` / PRD seção 5.2).
 
@@ -154,250 +153,155 @@ Lembrete: a máquina de treino pode ser diferente da máquina de inferência (PR
 ## Sprint 6 — Integração webcam + ROI + YOLO ao vivo (PRD Etapa 6 / seção 15)
 
 ### [ ] 6.1 Implementar recorte de ROI em `app/camera.py`
-- [ ] 6.1.1 Definir as coordenadas fixas da área útil da bandeja (depende da posição física definitiva da câmera — sincronizar com Sprint 12/13 se a estrutura final já estiver montada; caso contrário, usar a posição de referência da Sprint 1)
+- [ ] 6.1.1 Definir as coordenadas fixas da área útil da bandeja (depende da posição física definitiva da câmera — sincronizar com a Sprint 10 se a iluminação/posição definitiva já estiver montada; caso contrário, usar a posição de referência da Sprint 1)
 - [x] 6.1.2 Implementar `apply_roi(frame)` retornando apenas a região da bandeja
 - [x] 6.1.3 Criar uma ferramenta simples de calibração visual do ROI (ex.: overlay do retângulo de corte sobre o frame ao vivo, ajustável antes de travar os valores)
 - [x] 6.1.4 Externalizar as coordenadas do ROI para `app/config.py`
 
 ### [x] 6.2 Criar `app/detector.py`
-- [x] 6.2.1 Implementar `load_model(caminho_modelo)` carregando o `best.pt` treinado (ou `.onnx`, quando essa decisão for tomada — ver Sprint 14)
+- [x] 6.2.1 Implementar `load_model(caminho_modelo)` carregando o `best.pt` treinado (ou `.onnx`, quando essa decisão for tomada — ver Sprint 11)
 - [x] 6.2.2 Implementar `run_inference(frame)` retornando lista de detecções (classe, confiança, bounding box)
 - [x] 6.2.3 Externalizar o caminho do modelo para `app/config.py`
 
 ### [x] 6.3 Montar o pipeline ao vivo webcam → ROI → YOLO → bounding boxes
 - [x] 6.3.1 Implementar o loop principal: captura de frame → aplicação de ROI → inferência → desenho das bounding boxes com classe/confiança
-- [x] 6.3.2 Exibir o resultado em uma janela local para validação manual (etapa ainda sem MQTT/Home Assistant)
+- [x] 6.3.2 Exibir o resultado em uma janela local para validação manual (etapa ainda sem a interface final)
 
 ### [ ] 6.4 Validar desempenho básico do pipeline
 - [ ] 6.4.1 Medir o FPS obtido nesta etapa do pipeline
 - [ ] 6.4.2 Medir uso de CPU e RAM durante a execução
-- [ ] 6.4.3 Registrar os números como baseline para comparação após otimizações futuras (Sprint 14)
+- [ ] 6.4.3 Registrar os números como baseline para comparação após otimizações futuras (Sprint 11)
 
 ---
 
-## Sprint 7 — Lógica de contagem (PRD Etapa 7 / RB-01 / RB-02)
+## [x] Sprint 7 — Lógica de contagem (PRD Etapa 7 / RB-01 / RB-02)
 
-### [ ] 7.1 Criar `app/counter.py` — filtragem por classe
-- [ ] 7.1.1 Implementar `filter_by_class(detections, classe_selecionada)`
-- [ ] 7.1.2 Garantir que a classe não selecionada seja completamente ignorada na contagem (RB-01 — ex.: se "parafuso" está selecionado, porcas no frame não entram na contagem exibida)
+### [x] 7.1 Criar `app/counter.py` — filtragem por classe
+- [x] 7.1.1 Implementar `filter_by_class(detections, classe_selecionada)`
+- [x] 7.1.2 Garantir que a classe não selecionada seja completamente ignorada na contagem (RB-01 — ex.: se "parafuso" está selecionado, porcas no frame não entram na contagem exibida)
 
-### [ ] 7.2 Contagem dos objetos detectados
-- [ ] 7.2.1 Implementar `count_objects(detections_filtradas)` retornando a quantidade inteira detectada
+### [x] 7.2 Contagem dos objetos detectados
+- [x] 7.2.1 Implementar `count_objects(detections_filtradas)` retornando a quantidade inteira detectada
 
-### [ ] 7.3 Comparação com a quantidade alvo e máquina de estados (RB-02 / RB-03)
-- [ ] 7.3.1 Implementar `compare_counts(detectado, esperado)` retornando o estado correspondente
-- [ ] 7.3.2 Implementar os estados mínimos da máquina de estados: `AGUARDANDO CONFIGURAÇÃO`, `CONTANDO`, `QUANTIDADE ATINGIDA`, `QUANTIDADE EXCEDIDA`
-- [ ] 7.3.3 Implementar os estados de erro opcionais: `ERRO DE CÂMERA`, `MODELO NÃO CARREGADO` (conectar ao tratamento de erro já iniciado na Sprint 1.1.4)
+### [x] 7.3 Comparação com a quantidade alvo e máquina de estados (RB-02 / RB-03)
+- [x] 7.3.1 Implementar `compare_counts(detectado, esperado)` retornando o estado correspondente
+- [x] 7.3.2 Implementar os estados mínimos da máquina de estados: `AGUARDANDO CONFIGURAÇÃO`, `CONTANDO`, `QUANTIDADE ATINGIDA`, `QUANTIDADE EXCEDIDA`
+- [x] 7.3.3 Implementar os estados de erro opcionais: `ERRO DE CÂMERA`, `MODELO NÃO CARREGADO` (conectar ao tratamento de erro já iniciado na Sprint 1.1.4)
 
-### [ ] 7.4 Testes manuais da lógica de contagem
-- [ ] 7.4.1 Testar cenário com a quantidade exata de parafusos configurada como alvo
-- [ ] 7.4.2 Testar cenário misto (parafusos + porcas) validando que a contagem exibida reflete apenas a classe selecionada (reproduzir o exemplo da seção 17 do PRD: 12 parafusos + 4 porcas → exibir 12)
-- [ ] 7.4.3 Testar transição de estado `AGUARDANDO CONFIGURAÇÃO` → `CONTANDO` → `QUANTIDADE ATINGIDA` OU → `QUANTIDADE EXCEDIDA`
+### [x] 7.4 Testes manuais da lógica de contagem
+- [x] 7.4.1 Testar cenário com a quantidade exata de parafusos configurada como alvo
+- [x] 7.4.2 Testar cenário misto (parafusos + porcas) validando que a contagem exibida reflete apenas a classe selecionada (reproduzir o exemplo da seção 17 do PRD: 12 parafusos + 4 porcas → exibir 12)
+- [x] 7.4.3 Testar transição de estado `AGUARDANDO CONFIGURAÇÃO` → `CONTANDO` → `QUANTIDADE ATINGIDA` OU → `QUANTIDADE EXCEDIDA`
 
 ---
 
 ## Sprint 8 — Estabilização da contagem (PRD Etapa 8 / seção 16)
 
-### [ ] 8.1 Implementar estabilização por N frames consecutivos
-- [ ] 8.1.1 Manter um histórico das últimas leituras de contagem por frame
-- [ ] 8.1.2 Implementar a regra: só transicionar para `QUANTIDADE ATINGIDA` quando a contagem alvo se mantiver por N frames consecutivos
-- [ ] 8.1.3 Definir N=5 como valor inicial (baseline sugerido na seção 16 do PRD), configurável em `app/config.py`
+### [x] 8.1 Implementar estabilização por N frames consecutivos
+- [x] 8.1.1 Manter um histórico das últimas leituras de contagem por frame
+- [x] 8.1.2 Implementar a regra: só transicionar para `QUANTIDADE ATINGIDA` quando a contagem alvo se mantiver por N frames consecutivos
+- [x] 8.1.3 Definir N=5 como valor inicial (baseline sugerido na seção 16 do PRD), configurável em `app/config.py`
 
 ### [ ] 8.2 Validar experimentalmente o valor de N
-- [ ] 8.2.1 ⚠️ Ponto em aberto: testar com N=5 e observar se ainda há oscilações de status perceptíveis (PRD 29.10/29.11)
+- [ ] 8.2.1 ⚠️ Ponto em aberto: testar com N=5 e observar se ainda há oscilações de status perceptíveis (PRD 29.8/29.9)
 - [ ] 8.2.2 Ajustar o valor de N caso necessário e documentar a decisão final adotada
 
-### [ ] 8.3 Tratar reinício da estabilização
-- [ ] 8.3.1 Reiniciar o contador de frames consecutivos sempre que a contagem cair abaixo do valor alvo
-- [ ] 8.3.2 Reiniciar a estabilização ao trocar a classe selecionada ou a quantidade alvo (evitar herdar histórico de uma configuração anterior)
+### [x] 8.3 Tratar reinício da estabilização
+- [x] 8.3.1 Reiniciar o contador de frames consecutivos sempre que a contagem cair abaixo do valor alvo
+- [x] 8.3.2 Reiniciar a estabilização ao trocar a classe selecionada ou a quantidade alvo (evitar herdar histórico de uma configuração anterior)
 
 ---
 
-## Sprint 9 — Integração MQTT (PRD Etapa 9 / seção 11.1)
+## Sprint 9 — Interface local (Tkinter) e orquestração
 
-### [ ] 9.1 Configurar broker MQTT
-- [ ] 9.1.1 Confirmar com o time se já existe um broker MQTT definido (ex.: Mosquitto) ou se precisa ser instalado
-- [ ] 9.1.2 Configurar autenticação básica do broker, se aplicável ao ambiente do time
+> A interface roda no **mesmo computador** em que a webcam está conectada, no mesmo processo da
+> aplicação Python: ela lê a contagem e o frame anotado diretamente do pipeline. Não há MQTT nem
+> streaming de vídeo na v1. Tkinter já vem com o Python (nenhuma dependência nova).
 
-### [ ] 9.2 Criar `app/mqtt_client.py` — recepção de configuração
-- [ ] 9.2.1 Implementar assinatura do tópico `contador/config/componente`
-- [ ] 9.2.2 Implementar assinatura do tópico `contador/config/quantidade`
-- [ ] 9.2.3 Implementar recepção de comando de iniciar/resetar contagem (tópico a definir junto com a Sprint 10, alinhado à RB-05)
-- [ ] 9.2.4 Validar/tratar mensagens malformadas ou fora do domínio esperado (ex.: componente diferente de parafuso/porca)
+### [ ] 9.1 Criar `app/interface.py` (janela Tkinter)
+- [ ] 9.1.1 Exibir o vídeo ao vivo com as bounding boxes (frame anotado vindo do pipeline)
+- [ ] 9.1.2 Criar seletor de componente `Parafuso` / `Porca` (somente as duas classes da v1)
+- [ ] 9.1.3 Criar campo numérico de quantidade desejada, aceitando só inteiros positivos (⚠️ Ponto em aberto: o limite máximo depende da quantidade máxima de componentes suportada, PRD 29.8)
+- [ ] 9.1.4 Criar botão de reset (RB-05) (⚠️ Ponto em aberto: confirmar com o time o método definitivo de reset, PRD 29.16)
+- [ ] 9.1.5 Exibir quantidade detectada, quantidade desejada e status textual (`AGUARDANDO CONFIGURAÇÃO` / `CONTANDO` / `QUANTIDADE ATINGIDA` / `QUANTIDADE EXCEDIDA` / estados de erro)
+- [ ] 9.1.6 ⚠️ Ponto em aberto: validar com o time o layout final da janela (PRD 29.15)
 
-### [ ] 9.3 Criar `app/mqtt_client.py` — publicação de status
-- [ ] 9.3.1 Implementar publicação em `contador/status/detectado`
-- [ ] 9.3.2 Implementar publicação em `contador/status/esperado`
-- [ ] 9.3.3 Implementar publicação em `contador/status/estado`
-- [ ] 9.3.4 Definir a frequência de publicação (a cada frame processado, a cada mudança de valor, ou intervalo fixo) e justificar a escolha
+### [ ] 9.2 Orquestrar tudo em `app/main.py`
+- [ ] 9.2.1 Conectar os módulos `camera`, `detector`, `counter` e `interface`
+- [ ] 9.2.2 Implementar o loop principal completo: captura → ROI → inferência → filtragem/contagem → estabilização → atualização da interface
+- [ ] 9.2.3 Garantir que a janela não trave durante a inferência (ex.: processamento em thread separada e atualização da tela via `after` do Tkinter) — escolher a abordagem com base no FPS medido na tarefa 6.4
+- [ ] 9.2.4 Aplicar em tempo real as mudanças de componente/quantidade feitas na interface, reiniciando a estabilização (tarefa 8.3.2), sem reiniciar a aplicação
+- [ ] 9.2.5 Liberar a câmera corretamente ao fechar a janela
 
-### [ ] 9.4 Orquestrar tudo em `app/main.py`
-- [ ] 9.4.1 Conectar `mqtt_client` aos módulos `camera`, `detector` e `counter` já existentes
-- [ ] 9.4.2 Implementar o loop principal completo: captura → ROI → inferência → filtragem/contagem → estabilização → publicação MQTT
-- [ ] 9.4.3 Garantir que o loop reage a mudanças de configuração recebidas via MQTT em tempo real (sem precisar reiniciar a aplicação)
-
-### [ ] 9.5 Testes de integração MQTT isolados (antes do Home Assistant)
-- [ ] 9.5.1 Testar publish/subscribe com um cliente MQTT genérico (ex.: MQTT Explorer, `mosquitto_sub`/`mosquitto_pub`) para validar os tópicos antes de conectar ao Home Assistant
-- [ ] 9.5.2 Validar que os nomes de tópico usados batem com os definidos na seção 11.1 do PRD (ou registrar formalmente qualquer ajuste feito nos nomes)
-
----
-
-## Sprint 10 — Integração Home Assistant (PRD Etapa 9 continuação / seção 12)
-
-### [ ] 10.1 Configurar integração MQTT no Home Assistant
-- [ ] 10.1.1 Configurar a conexão do Home Assistant ao mesmo broker MQTT usado pela aplicação Python
-- [ ] 10.1.2 Criar entidade MQTT sensor para "detectado"
-- [ ] 10.1.3 Criar entidade MQTT sensor para "esperado"
-- [ ] 10.1.4 Criar entidade MQTT sensor para "estado"
-
-### [ ] 10.2 Criar controles de configuração no Home Assistant
-- [ ] 10.2.1 Criar seletor de componente (Parafuso/Porca) publicando em `contador/config/componente`
-- [ ] 10.2.2 Criar campo numérico de quantidade desejada publicando em `contador/config/quantidade` (⚠️ Ponto em aberto: o limite máximo do campo depende da quantidade máxima de componentes suportada, PRD 29.8)
-- [ ] 10.2.3 Criar botão de reset (RB-05) publicando o comando de reset definido na Sprint 9.2.3
-- [ ] 10.2.4 ⚠️ Ponto em aberto: confirmar com o time o método definitivo de reset (PRD 29.16) antes de finalizar este item
-
-### [ ] 10.3 Montar o dashboard de monitoramento (PRD seção 12)
-- [ ] 10.3.1 Adicionar exibição da quantidade atual detectada
-- [ ] 10.3.2 Adicionar exibição da quantidade desejada
-- [ ] 10.3.3 Adicionar exibição do status textual (`AGUARDANDO CONFIGURAÇÃO` / `CONTANDO` / `QUANTIDADE ATINGIDA` / `QUANTIDADE EXCEDIDA` / estados de erro)
-- [ ] 10.3.4 ⚠️ Ponto em aberto: validar com o time o layout final do dashboard (PRD 29.15) antes de considerar esta tarefa concluída
-
-### [ ] 10.4 Testes end-to-end de configuração via Home Assistant
-- [ ] 10.4.1 Alterar o componente selecionado pelo Home Assistant e validar que a aplicação Python reflete a mudança
-- [ ] 10.4.2 Alterar a quantidade desejada pelo Home Assistant e validar atualização em tempo real na aplicação
-- [ ] 10.4.3 Testar o botão de reset e validar que uma nova contagem pode ser iniciada corretamente (RB-05)
+### [ ] 9.3 Testes manuais da interface
+- [ ] 9.3.1 Trocar o componente selecionado e validar que a contagem exibida reflete a mudança
+- [ ] 9.3.2 Alterar a quantidade desejada e validar a atualização em tempo real
+- [ ] 9.3.3 Testar o botão de reset e validar que uma nova contagem pode ser iniciada corretamente (RB-05)
+- [ ] 9.3.4 Desconectar a câmera / remover o modelo e validar que a interface mostra `ERRO DE CÂMERA` / `MODELO NÃO CARREGADO`
 
 ---
 
-## Sprint 11 — Streaming de vídeo (PRD Etapa 10 / seção 11.2)
+## Sprint 10 — Iluminação e ambiente controlado (RNF-01, pode rodar em paralelo às Sprints 1–9)
 
-### [ ] 11.1 Criar `app/video_stream.py` com transmissão HTTP/MJPEG
-- [ ] 11.1.1 Implementar função que recebe o frame já anotado (com bounding boxes) vindo do pipeline principal
-- [ ] 11.1.2 Implementar um servidor HTTP simples que sirva o stream em formato MJPEG
+### [ ] 10.1 Definir e instalar iluminação padronizada
+- [ ] 10.1.1 ⚠️ Ponto em aberto: decidir tipo e posição da iluminação (PRD 29.5)
+- [ ] 10.1.2 Fixar a iluminação de forma a minimizar variação de luz ambiente ao longo do dia
 
-### [ ] 11.2 Avaliar alternativa RTSP
-- [ ] 11.2.1 ⚠️ Ponto em aberto: implementar/testar um protótipo de transmissão via RTSP (PRD 29.12)
-- [ ] 11.2.2 Comparar HTTP/MJPEG vs. RTSP em estabilidade, latência e consumo de CPU, conforme critério da seção 11.2 do PRD
-
-### [ ] 11.3 Decidir o protocolo de vídeo final
-- [ ] 11.3.1 Registrar a decisão final (MJPEG ou RTSP) com base nos testes da tarefa 11.2, atualizando a tabela de decisões (PRD seção 28) se o time mantiver esse controle
-
-### [ ] 11.4 Integrar o stream ao Home Assistant
-- [ ] 11.4.1 Configurar uma entidade de câmera genérica no Home Assistant apontando para o stream escolhido
-- [ ] 11.4.2 Validar que o vídeo ao vivo com bounding boxes aparece corretamente no dashboard (PRD seção 12)
+### [ ] 10.2 Padronizar e documentar o posicionamento físico
+- [ ] 10.2.1 Fixar as posições definitivas de câmera, bandeja e iluminação uma em relação à outra
+- [ ] 10.2.2 Documentar (foto e/ou medidas) as posições definitivas para permitir remontagem idêntica no futuro
 
 ---
 
-## Sprint 12 — Estrutura física / mecânica (pode rodar em paralelo às Sprints 1–11)
+## Sprint 11 — Integração completa no computador final (PRD Etapa 11 / seção 22)
 
-> Responsabilidade primária: dupla mecânica do time (PRD seção 27). Referências: PRD seções 6, 25 e 26.
->
-> ⚠️ Ponto em aberto que bloqueia o dimensionamento da bandeja (tarefa 12.1): confirmar a
-> quantidade máxima de componentes que o sistema precisa suportar por sessão (PRD 29.8).
+### [ ] 11.1 Especificar e preparar o computador final
+- [ ] 11.1.1 ⚠️ Ponto em aberto: confirmar a especificação do computador final de produção (PRD 29.13)
+- [ ] 11.1.2 Instalar no computador final apenas as dependências necessárias para inferência (sem as dependências de treino, que só existem na máquina de treinamento)
 
-### [ ] 12.1 Projetar a bandeja fixa
-- [ ] 12.1.1 Modelar em CAD garantindo área interna totalmente visível pela câmera
-- [ ] 12.1.2 Modelar bordas suficientes para impedir que componentes escapem
-- [ ] 12.1.3 Escolher/definir uma superfície com bom contraste visual em relação aos objetos (parafusos/porcas metálicos)
-- [ ] 12.1.4 ⚠️ Ponto em aberto: definir as dimensões finais da bandeja (PRD 29.3)
-- [ ] 12.1.5 Garantir que o fundo da bandeja seja uma peça independente da estrutura lateral (necessário para o fundo deslizante)
+### [ ] 11.2 Transferir o modelo treinado
+- [ ] 11.2.1 Copiar o `best.pt` validado (Sprint 5) para o computador final
+- [ ] 11.2.2 Avaliar exportação para `best.onnx` como possível otimização (PRD seção 22)
+- [ ] 11.2.3 ⚠️ Ponto em aberto: decidir o formato final entre `.pt` e `.onnx` com base em testes reais de desempenho no hardware final (PRD 29.14)
 
-### [ ] 12.2 Projetar o fundo deslizante manual
-- [ ] 12.2.1 Modelar a placa deslizante que sustenta os componentes quando fechada
-- [ ] 12.2.2 Modelar trilhos/guias para movimentação suave e com folga mínima
-- [ ] 12.2.3 Modelar um puxador acessível para acionamento manual
-- [ ] 12.2.4 Garantir abertura suficiente para descarregar todos os componentes ao ser puxado
+### [ ] 11.3 Testar desempenho no hardware real
+- [ ] 11.3.1 Medir FPS no computador final
+- [ ] 11.3.2 Medir latência ponta a ponta (captura → contagem → atualização na interface)
+- [ ] 11.3.3 Medir uso de CPU, RAM e GPU (quando aplicável)
+- [ ] 11.3.4 Se o desempenho for insuficiente: reduzir resolução de captura, ajustar FPS-alvo, ou otimizar a inferência (nessa ordem de prioridade, conforme PRD seção 21)
 
-### [ ] 12.3 Projetar a rampa afunilada
-- [ ] 12.3.1 Modelar a rampa posicionada imediatamente abaixo da bandeja
-- [ ] 12.3.2 Modelar geometria que impeça espalhamento dos componentes durante a queda
-- [ ] 12.3.3 Modelar o afunilamento da saída para direcionar os componentes ao recipiente
-- [ ] 12.3.4 ⚠️ Ponto em aberto: definir dimensões e inclinação finais da rampa (PRD 29.17) — validar experimentalmente que a inclinação é suficiente para o material dos componentes escorregar
-
-### [ ] 12.4 Projetar o suporte da câmera
-- [ ] 12.4.1 Modelar um suporte rígido que evite vibração
-- [ ] 12.4.2 ⚠️ Ponto em aberto: definir a altura exata da câmera (PRD 29.4) — coordenar com a Sprint 1.2 e a calibração de ROI da Sprint 6.1
-
-### [ ] 12.5 Selecionar material de impressão definitivo
-- [ ] 12.5.1 ⚠️ Ponto em aberto: decidir entre PLA e PETG como material definitivo (PRD 29.6)
-
-### [ ] 12.6 Imprimir e montar as peças
-- [ ] 12.6.1 Imprimir bandeja, fundo deslizante, trilhos, puxador, rampa e suporte de câmera
-- [ ] 12.6.2 Montar a estrutura completa, usando fixadores metálicos onde previsto (PRD seção 26)
-- [ ] 12.6.3 Prever montagem modular e possibilidade de desmontagem, conforme diretriz da seção 26 do PRD
-
-### [ ] 12.7 Testes mecânicos (métricas da seção 24 do PRD)
-- [ ] 12.7.1 Testar deslizamento do fundo sem folga excessiva
-- [ ] 12.7.2 Medir a taxa de descarga completa dos componentes pela rampa
-- [ ] 12.7.3 Medir a taxa de componentes que ficam presos na bandeja
-- [ ] 12.7.4 Medir a taxa de componentes que ficam presos na rampa
-- [ ] 12.7.5 Registrar quando há necessidade de intervenção manual para completar a descarga
+### [ ] 11.4 Montagem completa do protótipo
+- [ ] 11.4.1 Conectar a webcam ao computador final
+- [ ] 11.4.2 Integrar a iluminação definitiva (Sprint 10) à posição da câmera
+- [ ] 11.4.3 Validar cabeamento, alimentação elétrica e posicionamento final de todos os componentes físicos
 
 ---
 
-## Sprint 13 — Iluminação e ambiente controlado (RNF-01, pode rodar em paralelo às Sprints 1–11)
+## Sprint 12 — Testes finais e critérios de aceitação (PRD seção 23)
 
-### [ ] 13.1 Definir e instalar iluminação padronizada
-- [ ] 13.1.1 ⚠️ Ponto em aberto: decidir tipo e posição da iluminação (PRD 29.5)
-- [ ] 13.1.2 Fixar a iluminação de forma a minimizar variação de luz ambiente ao longo do dia
+### [ ] 12.1 Validar cada critério de aceitação do protótipo
+- [ ] 12.1.1 A webcam captura toda a bandeja de maneira estável
+- [ ] 12.1.2 O usuário consegue selecionar `Parafuso` ou `Porca` na interface local
+- [ ] 12.1.3 O usuário consegue definir uma quantidade alvo na interface local
+- [ ] 12.1.4 O modelo identifica corretamente os componentes em condições normais de uso
+- [ ] 12.1.5 A aplicação conta apenas a classe selecionada (RB-01)
+- [ ] 12.1.6 A quantidade detectada aparece corretamente na interface local
+- [ ] 12.1.7 O status muda para `QUANTIDADE ATINGIDA` quando o alvo é alcançado
+- [ ] 12.1.8 O vídeo da bandeja pode ser visualizado ao vivo na interface local
 
-### [ ] 13.2 Padronizar e documentar o posicionamento físico
-- [ ] 13.2.1 Fixar as posições definitivas de câmera, bandeja e iluminação uma em relação à outra
-- [ ] 13.2.2 Documentar (foto e/ou medidas) as posições definitivas para permitir remontagem idêntica no futuro
-
----
-
-## Sprint 14 — Integração física completa no computador final (PRD Etapa 11 / seção 22)
-
-### [ ] 14.1 Especificar e preparar o computador final
-- [ ] 14.1.1 ⚠️ Ponto em aberto: confirmar a especificação do computador final de produção (PRD 29.13)
-- [ ] 14.1.2 Instalar no computador final apenas as dependências necessárias para inferência (sem as dependências de treino, que só existem na máquina de treinamento)
-
-### [ ] 14.2 Transferir o modelo treinado
-- [ ] 14.2.1 Copiar o `best.pt` validado (Sprint 5) para o computador final
-- [ ] 14.2.2 Avaliar exportação para `best.onnx` como possível otimização (PRD seção 22)
-- [ ] 14.2.3 ⚠️ Ponto em aberto: decidir o formato final entre `.pt` e `.onnx` com base em testes reais de desempenho no hardware final (PRD 29.14)
-
-### [ ] 14.3 Testar desempenho no hardware real
-- [ ] 14.3.1 Medir FPS no computador final
-- [ ] 14.3.2 Medir latência ponta a ponta (captura → contagem → publicação MQTT)
-- [ ] 14.3.3 Medir uso de CPU, RAM e GPU (quando aplicável)
-- [ ] 14.3.4 Se o desempenho for insuficiente: reduzir resolução de captura, ajustar FPS-alvo, ou otimizar a inferência (nessa ordem de prioridade, conforme PRD seção 21)
-
-### [ ] 14.4 Montagem física completa do protótipo
-- [ ] 14.4.1 Conectar a webcam ao computador final
-- [ ] 14.4.2 Integrar a estrutura mecânica montada (Sprint 12) e a iluminação definitiva (Sprint 13) à posição da câmera
-- [ ] 14.4.3 Validar cabeamento, alimentação elétrica e posicionamento final de todos os componentes físicos
+### [ ] 12.2 Testes de regressão end-to-end
+- [ ] 12.2.1 Executar o cenário de uso de referência completo (PRD seção 8: selecionar Parafuso, alvo 20, acompanhar contagem até `QUANTIDADE ATINGIDA`)
+- [ ] 12.2.2 Repetir o ciclo completo (contagem → retirada manual das peças → reset → nova contagem) múltiplas vezes seguidas para checar estabilidade
+- [ ] 12.2.3 Testar o cenário de troca de classe selecionada no meio de uma sessão (ex.: trocar de Parafuso para Porca) e validar que a contagem e a estabilização reiniciam corretamente
 
 ---
 
-## Sprint 15 — Testes finais e critérios de aceitação (PRD seção 23)
+## Sprint 13 — Documentação final e encerramento do MVP
 
-### [ ] 15.1 Validar cada critério de aceitação do protótipo
-- [ ] 15.1.1 A webcam captura toda a bandeja de maneira estável
-- [ ] 15.1.2 O usuário consegue selecionar `Parafuso` ou `Porca` pelo Home Assistant
-- [ ] 15.1.3 O usuário consegue definir uma quantidade alvo pelo Home Assistant
-- [ ] 15.1.4 O modelo identifica corretamente os componentes em condições normais de uso
-- [ ] 15.1.5 A aplicação conta apenas a classe selecionada (RB-01)
-- [ ] 15.1.6 A quantidade detectada aparece corretamente no Home Assistant
-- [ ] 15.1.7 O status muda para `QUANTIDADE ATINGIDA` quando o alvo é alcançado
-- [ ] 15.1.8 O vídeo da bandeja pode ser visualizado ao vivo no Home Assistant
-- [ ] 15.1.9 A bandeja permite descarga manual pelo fundo deslizante
-- [ ] 15.1.10 A rampa conduz os componentes ao recipiente sem perdas significativas
+### [ ] 13.1 Atualizar a documentação técnica
+- [ ] 13.1.1 Documentar, para cada ponto em aberto da seção 29 do PRD, qual foi a decisão final tomada
+- [ ] 13.1.2 Atualizar o `README.md` do projeto com instruções de instalação, configuração e uso do protótipo final
 
-### [ ] 15.2 Testes de regressão end-to-end
-- [ ] 15.2.1 Executar o cenário de uso de referência completo (PRD seção 8: selecionar Parafuso, alvo 20, acompanhar contagem até `QUANTIDADE ATINGIDA`)
-- [ ] 15.2.2 Repetir o ciclo completo (contagem → descarga manual → reset → nova contagem) múltiplas vezes seguidas para checar estabilidade
-- [ ] 15.2.3 Testar o cenário de troca de classe selecionada no meio de uma sessão (ex.: trocar de Parafuso para Porca) e validar que a contagem e a estabilização reiniciam corretamente
-
----
-
-## Sprint 16 — Documentação final e encerramento do MVP
-
-### [ ] 16.1 Atualizar a documentação técnica
-- [ ] 16.1.1 Documentar, para cada ponto em aberto da seção 29 do PRD, qual foi a decisão final tomada
-- [ ] 16.1.2 Atualizar o `README.md` do projeto com instruções de instalação, configuração e uso do protótipo final
-
-### [ ] 16.2 Registrar aprendizados e próximos passos
-- [ ] 16.2.1 Registrar as métricas finais obtidas (IA: precisão/recall; aplicação: FPS/latência; mecânica: taxa de descarga) em um documento de fechamento do MVP
-- [ ] 16.2.2 Priorizar, junto ao time, quais expansões futuras da seção 30 do PRD (ex.: arruelas, múltiplas classes, histórico) fazem sentido buscar em uma próxima versão
+### [ ] 13.2 Registrar aprendizados e próximos passos
+- [ ] 13.2.1 Registrar as métricas finais obtidas (IA: precisão/recall; aplicação: FPS/latência) em um documento de fechamento do MVP
+- [ ] 13.2.2 Priorizar, junto ao time, quais expansões futuras da seção 30 do PRD (ex.: arruelas, múltiplas classes, histórico) fazem sentido buscar em uma próxima versão

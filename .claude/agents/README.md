@@ -24,8 +24,9 @@ você pode invocá-lo explicitamente pedindo pelo nome.
 | [`python-backend-engineer`](python-backend-engineer.md) | Lógica de contagem e estabilização (`counter.py`), orquestração e máquina de estados (`main.py`, `config.py`), integração MQTT (`mqtt_client.py`) e streaming de vídeo HTTP/MJPEG ou RTSP (`video_stream.py`). |
 | [`home-assistant-specialist`](home-assistant-specialist.md) | Entidades MQTT no Home Assistant, dashboard/Lovelace (câmera, seleção de componente, quantidade, status, botão de reset), integração da entidade de câmera (MJPEG/RTSP). |
 | [`qa-tester`](qa-tester.md) | Testes automatizados de lógica pura (contagem, estabilização, contrato MQTT), planos de teste manual para partes que dependem de hardware, e checagem do progresso contra os critérios de aceitação (PRD seção 23) e métricas de validação (PRD seção 24). |
+| [`tkinter-frontend-specialist`](tkinter-frontend-specialist.md) | Interface local Tkinter/ttk (`contador_componentes/app/interface.py`): vídeo ao vivo com bounding boxes, seletor Parafuso/Porca, quantidade, reset, painel de contagem/status. Foco em visual moderno e minimalista, layout responsivo, multiplataforma e janela que não trava durante a inferência. |
 
-## Por que apenas estes cinco
+## Por que apenas estes agentes
 
 O time de código do projeto (PRD seção 27) é pequeno e as responsabilidades
 de visão computacional/backend Python (câmera, dataset, treino, inferência,
@@ -36,6 +37,10 @@ para responsabilidades que, na prática, formam um único módulo coeso do PRD
 (ex.: MQTT e streaming de vídeo estão dentro do mesmo agente de backend, não
 separados, porque ambos moram nos mesmos módulos `mqtt_client.py`/
 `video_stream.py` e na mesma "camada" de orquestração).
+
+O `tkinter-frontend-specialist` foi acrescentado quando a interface da v1
+passou a ser uma janela Tkinter local (sem Home Assistant/MQTT/streaming),
+conforme o `TASKS.md` (Sprint 9).
 
 Estrutura mecânica/impressão 3D (Augusto/Jefferson no PRD) não gera um
 agente porque não produz código.

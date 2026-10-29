@@ -66,3 +66,19 @@ CONFIDENCE_THRESHOLD: float = 0.5
 # baseline de treino (PRD secao 21, Etapa 4: imgsz=640); se o modelo for
 # retreinado com outro valor, atualizar aqui tambem.
 IMGSZ: int = 640
+
+# ---------------------------------------------------------------------------
+# Estabilizacao da contagem (Sprint 8, tarefa 8.1.3 do TASKS.md)
+# ---------------------------------------------------------------------------
+
+# Numero N de frames CONSECUTIVOS com o mesmo resultado (alvo atingido ou
+# alvo excedido) exigido antes de `counter.EstabilizadorContagem` reportar
+# `QUANTIDADE ATINGIDA` / `QUANTIDADE EXCEDIDA` (PRD secao 16). Deve ser
+# inteiro >= 1; N=1 equivale a nao estabilizar.
+#
+# VALOR INICIAL, a ser validado: 5 e o baseline sugerido pelo PRD (secao 16).
+# PONTO EM ABERTO (PRD secao 29, itens 8/9; tarefa 8.2 do TASKS.md): o valor
+# definitivo deve ser decidido experimentalmente, observando se ainda ha
+# oscilacao perceptivel de status. Note que o tempo efetivo de espera depende
+# do FPS real do pipeline (ex.: 5 frames a ~10 FPS = ~0,5 s).
+FRAMES_ESTABILIZACAO: int = 5
