@@ -219,25 +219,25 @@ Lembrete: a máquina de treino pode ser diferente da máquina de inferência (PR
 > streaming de vídeo na v1. Tkinter já vem com o Python (nenhuma dependência nova).
 
 ### [ ] 9.1 Criar `app/interface.py` (janela Tkinter)
-- [ ] 9.1.1 Exibir o vídeo ao vivo com as bounding boxes (frame anotado vindo do pipeline)
-- [ ] 9.1.2 Criar seletor de componente `Parafuso` / `Porca` (somente as duas classes da v1)
-- [ ] 9.1.3 Criar campo numérico de quantidade desejada, aceitando só inteiros positivos (⚠️ Ponto em aberto: o limite máximo depende da quantidade máxima de componentes suportada, PRD 29.8)
-- [ ] 9.1.4 Criar botão de reset (RB-05) (⚠️ Ponto em aberto: confirmar com o time o método definitivo de reset, PRD 29.16)
-- [ ] 9.1.5 Exibir quantidade detectada, quantidade desejada e status textual (`AGUARDANDO CONFIGURAÇÃO` / `CONTANDO` / `QUANTIDADE ATINGIDA` / `QUANTIDADE EXCEDIDA` / estados de erro)
+- [x] 9.1.1 Exibir o vídeo ao vivo com as bounding boxes (frame anotado vindo do pipeline)
+- [x] 9.1.2 Criar seletor de componente `Parafuso` / `Porca` (somente as duas classes da v1)
+- [x] 9.1.3 Criar campo numérico de quantidade desejada, aceitando só inteiros positivos (⚠️ Ponto em aberto: o limite máximo depende da quantidade máxima de componentes suportada, PRD 29.8)
+- [x] 9.1.4 Criar botão de reset (RB-05) (⚠️ Ponto em aberto: confirmar com o time o método definitivo de reset, PRD 29.16)
+- [x] 9.1.5 Exibir quantidade detectada, quantidade desejada e status textual (`AGUARDANDO CONFIGURAÇÃO` / `CONTANDO` / `QUANTIDADE ATINGIDA` / `QUANTIDADE EXCEDIDA` / estados de erro)
 - [ ] 9.1.6 ⚠️ Ponto em aberto: validar com o time o layout final da janela (PRD 29.15)
 
-### [ ] 9.2 Orquestrar tudo em `app/main.py`
-- [ ] 9.2.1 Conectar os módulos `camera`, `detector`, `counter` e `interface`
-- [ ] 9.2.2 Implementar o loop principal completo: captura → ROI → inferência → filtragem/contagem → estabilização → atualização da interface
-- [ ] 9.2.3 Garantir que a janela não trave durante a inferência (ex.: processamento em thread separada e atualização da tela via `after` do Tkinter) — escolher a abordagem com base no FPS medido na tarefa 6.4
-- [ ] 9.2.4 Aplicar em tempo real as mudanças de componente/quantidade feitas na interface, reiniciando a estabilização (tarefa 8.3.2), sem reiniciar a aplicação
-- [ ] 9.2.5 Liberar a câmera corretamente ao fechar a janela
+### [x] 9.2 Orquestrar tudo em `app/main.py`
+- [x] 9.2.1 Conectar os módulos `camera`, `detector`, `counter` e `interface`
+- [x] 9.2.2 Implementar o loop principal completo: captura → ROI → inferência → filtragem/contagem → estabilização → atualização da interface
+- [x] 9.2.3 Garantir que a janela não trave durante a inferência (ex.: processamento em thread separada e atualização da tela via `after` do Tkinter) — escolher a abordagem com base no FPS medido na tarefa 6.4
+- [x] 9.2.4 Aplicar em tempo real as mudanças de componente/quantidade feitas na interface, reiniciando a estabilização (tarefa 8.3.2), sem reiniciar a aplicação
+- [x] 9.2.5 Liberar a câmera corretamente ao fechar a janela
 
-### [ ] 9.3 Testes manuais da interface
-- [ ] 9.3.1 Trocar o componente selecionado e validar que a contagem exibida reflete a mudança
-- [ ] 9.3.2 Alterar a quantidade desejada e validar a atualização em tempo real
-- [ ] 9.3.3 Testar o botão de reset e validar que uma nova contagem pode ser iniciada corretamente (RB-05)
-- [ ] 9.3.4 Desconectar a câmera / remover o modelo e validar que a interface mostra `ERRO DE CÂMERA` / `MODELO NÃO CARREGADO`
+### [x] 9.3 Testes manuais da interface
+- [x] 9.3.1 Trocar o componente selecionado e validar que a contagem exibida reflete a mudança
+- [x] 9.3.2 Alterar a quantidade desejada e validar a atualização em tempo real
+- [x] 9.3.3 Testar o botão de reset e validar que uma nova contagem pode ser iniciada corretamente (RB-05)
+- [x] 9.3.4 Desconectar a câmera / remover o modelo e validar que a interface mostra `ERRO DE CÂMERA` / `MODELO NÃO CARREGADO`
 
 ---
 
@@ -258,6 +258,10 @@ Lembrete: a máquina de treino pode ser diferente da máquina de inferência (PR
 ### [ ] 11.1 Especificar e preparar o computador final
 - [ ] 11.1.1 ⚠️ Ponto em aberto: confirmar a especificação do computador final de produção (PRD 29.13)
 - [ ] 11.1.2 Instalar no computador final apenas as dependências necessárias para inferência (sem as dependências de treino, que só existem na máquina de treinamento)
+- [ ] 11.1.3 Empacotar a aplicação como executável autocontido para o PC final (sem exigir Python) — ver `instalador/LEIAME_INSTALACAO.md`
+  - [x] 11.1.3.1 Build PyInstaller one-folder (`instalador/contador_componentes.spec` + `instalador/build.ps1`, venv de build só com dependências de inferência; roda os testes antes; gera zip e, com Inno Setup, `Instalar_ContadorComponentes.exe`)
+  - [x] 11.1.3.2 Modelo (`models/best.pt`) fora do executável, trocável sem rebuild; `camera_index`/`roi` editáveis em `config_local.json`; calibração de ROI no PC final via `ContadorComponentes.exe --calibrar-roi`
+  - [ ] 11.1.3.3 Instalar e abrir o pacote no PC final real, com a webcam (depende de 11.1.1 e da pendência 1 — modelo final — do `PENDENCIAS_HUMANAS.md`)
 
 ### [ ] 11.2 Transferir o modelo treinado
 - [ ] 11.2.1 Copiar o `best.pt` validado (Sprint 5) para o computador final

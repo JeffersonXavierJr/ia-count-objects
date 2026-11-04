@@ -5,7 +5,9 @@ desenhado por cima, permite ajusta-lo com o mouse e/ou teclado, e mostra numa
 segunda janela o resultado do recorte (`camera.apply_roi`). Ao pressionar `p`
 (ou Enter), imprime no terminal a linha exata para colar em `app/config.py`.
 
-Este script NAO grava `config.py` automaticamente: a decisao de travar as
+Este script NAO grava `config.py` automaticamente (no executavel do PC final,
+`--calibrar-roi` grava a ROI confirmada em `config_local.json`; ver
+`main(ao_confirmar=...)`): a decisao de travar as
 coordenadas (tarefa 6.1.1) e de quem opera a ferramenta, com a camera ja na
 posicao fisica definitiva.
 
@@ -31,6 +33,7 @@ from __future__ import annotations
 
 import logging
 import sys
+from collections.abc import Callable
 
 import cv2
 import numpy as np
@@ -198,7 +201,15 @@ def _aplicar_tecla(tecla: int, roi: Roi, passo: int) -> Roi:
     return (x + dx, y + dy, largura + dl, altura + da)
 
 
-def main() -> int:
+def main(ao_confirmar: Callable[[Roi], None] | None = None) -> int:
+    """Executa a calibracao.
+
+    Args:
+        ao_confirmar: chamada com a ROI (pixels do frame capturado) cada vez
+            que o operador pressiona `p`/Enter, alem da impressao no terminal.
+            Usada pelo executavel (`--calibrar-roi`) para gravar a ROI no
+            `config_local.json` do PC final; `None` = so imprimir (uso em dev).
+    """
     try:
         camera = open_camera()
     except CameraError as erro:
@@ -260,6 +271,8 @@ def main() -> int:
                     f"ROI = {roi}\n",
                     flush=True,
                 )
+                if ao_confirmar is not None:
+                    ao_confirmar(roi)
             elif tecla == ord("f"):
                 passo = PASSO_FINO if passo == PASSO_GROSSO else PASSO_GROSSO
             elif tecla == ord("r"):

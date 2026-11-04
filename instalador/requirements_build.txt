@@ -1,0 +1,20 @@
+# Dependencias do venv de BUILD do executavel (instalador/venv_build/).
+#
+# Somente o necessario para INFERENCIA (TASKS 11.1.2) + ferramentas de build.
+# NAO inclui dependencias de treino nem MQTT (paho-mqtt ainda nao e usado na v1).
+# Versoes fixadas iguais as do venv de desenvolvimento (venv/) em que o modelo
+# e a aplicacao foram validados — atualizar aqui junto com o venv/ quando mudar.
+#
+# O torch do PyPI para Windows e a build de CPU (sem CUDA), que e o que se
+# quer no PC final ate a especificacao dele ser confirmada (PRD 29.13).
+
+ultralytics==8.4.177
+torch==2.14.1
+torchvision==0.29.1
+opencv-python==5.0.0.93
+numpy==2.5.3
+pillow==12.3.0
+
+# Build/teste
+pyinstaller
+pytest==9.1.1

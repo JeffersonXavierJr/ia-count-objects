@@ -26,6 +26,8 @@ Em todas as janelas OpenCV, `q` ou `Esc` encerra.
 | 5 | Teste ao vivo da contagem | 7.4 (checklist ao vivo) | 1, 3 |
 | 6 | Escolher o N da estabilização | 8.2.1–8.2.2 | 1, 3, 4 |
 | 7 | Decisões de documentação | — | — |
+| 8 | Teste ao vivo da interface Tkinter | 9.3 (checklist ao vivo) | 1, 3 |
+| 9 | Validar layout, reset e quantidade máxima | 9.1.6 | 8 |
 
 Os itens 1, 2 e 7 podem ser feitos em paralelo. Os itens 3 a 6 precisam da webcam e devem seguir
 a ordem, porque o resultado de cada um muda os seguintes (o modelo muda a contagem, a ROI muda o
@@ -290,3 +292,40 @@ Estas não têm teste; só precisam de uma decisão do time.
 **Como validar:** depois das alterações, PRD, CLAUDE.md e TASKS.md não devem se contradizer.
 Uma busca por "Home Assistant" e "MQTT" deve aparecer só como itens fora do escopo ou expansão
 futura.
+
+---
+
+## 8. Teste ao vivo da interface Tkinter — checklist da Sprint 9
+
+**Situação:** a 9.3 foi validada com testes automatizados (`tests/test_interface_integracao.py`,
+widgets reais com câmera e detector falsos). Falta repetir com a webcam e as peças reais.
+
+**Como executar:** siga o roteiro `contador_componentes/tests/plano_teste_manual_interface.md`.
+O app abre com:
+
+```powershell
+venv\Scripts\python.exe -m contador_componentes.app.main
+```
+
+**Como validar:** todos os passos do roteiro com o resultado esperado. Se algo falhar, anote no
+próprio roteiro.
+
+> Atenção: a câmera hoje captura em **640x480**, não em 1080p/30fps (PRD seção 28), porque
+> `camera.open_camera` não define a resolução. Corrigir isso antes de calibrar a ROI (item 3) e
+> medir o FPS (item 4). Num teste rápido sem peças, o pipeline completo rodou a ~8,6 FPS nesta máquina.
+
+## 9. Validar layout, reset e quantidade máxima — tarefa 9.1.6
+
+Decisões do time (PRD seção 29), com uma proposta já implementada em `app/interface.py`:
+
+- [ ] **Layout da janela (PRD 29, item 13).** Vídeo à esquerda e painel à direita; em janela
+  estreita o painel desce. Abrir o app, avaliar e pedir ajustes.
+- [ ] **Método de reset (PRD 29, item 14).** Hoje: botão RESET na janela. Ele zera a
+  estabilização e mantém componente e quantidade escolhidos.
+- [ ] **Quantidade máxima (PRD 29, item 6).** Hoje sem limite (`QUANTIDADE_MAXIMA = None` em
+  `app/config.py`). Se houver limite, basta preencher o valor.
+- [ ] **Numeração no `TASKS.md`.** A Sprint 9 cita PRD 29.8, 29.15 e 29.16; no PRD atual são os
+  itens 6, 13 e 14.
+
+Quando os três primeiros estiverem decididos, marque 9.1.6, a 9.1 e a Sprint 9 no `TASKS.md`.
+
