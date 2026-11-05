@@ -58,8 +58,8 @@ _FONTE = cv2.FONT_HERSHEY_SIMPLEX
 # maiores (ex.: 1080p) usam traço/fonte proporcionalmente maiores, para que
 # o texto continue legível quando a imagem for reduzida para exibição.
 _LADO_REFERENCIA = 1280
-_ESCALA_FONTE_BASE = 0.6
-_ESPESSURA_CAIXA_BASE = 2
+_ESCALA_FONTE_BASE = 0.4
+_ESPESSURA_CAIXA_BASE = 1
 _ESPESSURA_TEXTO_BASE = 1
 
 
@@ -109,7 +109,7 @@ def draw_detections(frame: np.ndarray, deteccoes: Iterable[Deteccao]) -> np.ndar
     escala_fonte = _ESCALA_FONTE_BASE * fator
     espessura_caixa = max(1, round(_ESPESSURA_CAIXA_BASE * fator))
     espessura_texto = max(1, round(_ESPESSURA_TEXTO_BASE * fator))
-    margem = max(2, round(3 * fator))
+    margem = max(1, round(2 * fator))
 
     for deteccao in deteccoes:
         x1, y1, x2, y2 = (int(v) for v in deteccao.bbox)
