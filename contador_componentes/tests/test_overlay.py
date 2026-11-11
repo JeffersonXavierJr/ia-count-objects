@@ -56,7 +56,9 @@ def test_desenha_na_borda_da_caixa():
 
     cor = np.array(overlay.cor_da_classe(0), dtype=np.uint8)
     # Borda inferior da caixa (o rotulo fica acima, entao aqui so ha o retangulo).
-    np.testing.assert_array_equal(anotado[y2, (x1 + x2) // 2], cor)
+    # O contorno fino usa antialiasing, misturando a cor com o fundo.
+    pixel_borda = anotado[y2, (x1 + x2) // 2].astype(float)
+    assert np.linalg.norm(pixel_borda - cor) < np.linalg.norm(pixel_borda - frame[0, 0])
     # Pixels mudaram na regiao da caixa + rotulo, e o miolo da caixa nao foi preenchido.
     assert np.any(anotado[: y2 + 1, x1 : x2 + 1] != frame[: y2 + 1, x1 : x2 + 1])
     np.testing.assert_array_equal(anotado[(y1 + y2) // 2, (x1 + x2) // 2], frame[0, 0])
